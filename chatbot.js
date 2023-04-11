@@ -1,5 +1,6 @@
 const scriptTag = document.currentScript;
 let ICON_COLOR = "white";
+let BOT_IMAGE = null;
 const chatButton = document.createElement("div");
 chatButton.setAttribute("id", "aifactory-chat"),
   (chatButton.style.position = "fixed"),
@@ -61,18 +62,27 @@ mediaQuery.addEventListener("change", handleChatWindowSizeChange),
   handleChatWindowSizeChange(mediaQuery);
 const getChatButtonColor = async () => {
   e = { color: "#14b8a6" };
-  (chatButton.style.backgroundColor = e.color || "black"),
-    document.body.appendChild(chatButton);
+  const t = await fetch(`https://api-aifactory.rejoicehub.com/v1/project/get-brand-info`, {
+    method: "POST",
+    body: JSON.stringify({ id: scriptTag.id }),
+    headers: { "Content-Type": "application/json" },
+  });
+  const { data } = await t.json();
+  BOT_IMAGE = data?.bot_image;
+  chatButton.style.backgroundColor = data.base_color || "black";
+  document.body.appendChild(chatButton);
   const n = getContrastingTextColor(e.color || "black");
-  console.log("iconColor", n),
-    (ICON_COLOR = n),
-    (chatButtonIcon.innerHTML = getChatButtonIcon());
+  (ICON_COLOR = n), (chatButtonIcon.innerHTML = getChatButtonIcon());
 };
 
 function getChatButtonIcon() {
-  return `\n <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" height="38px" width="38px" stroke="${ICON_COLOR}">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-</svg>`;
+  if (BOT_IMAGE) {
+    return `<img src="${BOT_IMAGE}" style='width: 50px; height: 50px; border-radius: 25px;'/>`;
+  } else {
+    return `\n <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" height="38px" width="38px" stroke="${ICON_COLOR}">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+    </svg>`;
+  }
 }
 
 function getChatButtonCloseIcon() {
