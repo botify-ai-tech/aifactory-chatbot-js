@@ -45,13 +45,12 @@ chat.setAttribute("id", "aifactory-chat-screen"),
   (chat.style.width = "85vw"),
   (chat.style.height = "70vh"),
   (chat.style.borderRadius = "15px"),
-  (chat.style.boxShadow =
-    "rgba(150, 150, 150, 0.15) 0px 6px 24px 0px, rgba(150, 150, 150, 0.15) 0px 0px 0px 1px"),
+  (chat.style.boxShadow = "rgba(150, 150, 150, 0.15) 0px 6px 24px 0px, rgba(150, 150, 150, 0.15) 0px 0px 0px 1px"),
   (chat.style.display = "none"),
   (chat.style.zIndex = 999999999),
   (chat.style.overflow = "hidden"),
   document?.body?.appendChild(chat),
-  (chat.innerHTML = `<iframe\nsrc="https://app.dhibot.com/chat/${scriptTag.id}"\nwidth="100%"\nheight="100%"\nframeborder="0"\n></iframe>`);
+  (chat.innerHTML = `<iframe\nsrc="https://dhibot.rejoicehub.com/chat/${scriptTag.id}"\nwidth="100%"\nheight="100%"\nframeborder="0"\n></iframe>`);
 const mediaQuery = window.matchMedia("(min-width: 550px)");
 
 function handleChatWindowSizeChange(t) {
